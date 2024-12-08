@@ -1,0 +1,68 @@
+<style>
+:root {
+    --background-color: #fff;
+    --page-width: 60em;
+    --font-color: #151515;
+    --global-font-color: #151515;
+    --invert-font-color: #fff;
+    --primary-color: #1a95e0;
+    --secondary-color: #1a95e0;
+    --error-color: #d20962;
+    --progress-bar-background: #1a95e0;
+    --progress-bar-fill: #151515;
+    --code-bg-color: #e8eff2;
+}
+
+[data-theme="dark"] {
+    --background-color: #222225;
+    --page-width: 60em;
+    --font-color: #e8e9ed;
+    --global-font-color: #e8e9ed;
+    --invert-font-color: #222225;
+    --primary-color: #f8b7c0;
+    --secondary-color: #f8b7c0;
+    --error-color: #ff3c74;
+    --progress-bar-background: #3f3f44;
+    --progress-bar-fill: #f8b7c0;
+    --code-bg-color: #3f3f44;
+}
+
+[data-theme="light"] {
+    --background-color: #fff;
+    --page-width: 60em;
+    --font-color: #151515;
+    --global-font-color: #151515;
+    --invert-font-color: #fff;
+    --primary-color: #1a95e0;
+    --secondary-color: #1a95e0;
+    --error-color: #d20962;
+    --progress-bar-background: #1a95e0;
+    --progress-bar-fill: #1a95e0;
+    --code-bg-color: #e8eff2;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--font-color);
+    transition: background-color 0.3s, color 0.3s;
+    font-family: var(--font-stack);
+    font-size: var(--global-font-size);
+    margin-bottom: 75px;
+}
+
+.text-button {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: var(--global-font-size);
+    font-family: var(--font-stack);
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.text-button:hover {
+    background-color: var(--primary-color);
+    color: var(--invert-font-color);
+}
+</style>

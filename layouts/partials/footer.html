@@ -1,0 +1,40 @@
+<div class="footer">
+    <button class="text-button" id="theme-toggle">Switch to dark mode</button>
+
+    <br/><br/>
+    Copyright (C) Erny &lt;info@erny.dev&gt;
+    <br/>
+    SPDX-License-Identifier: CC-BY-ND-4.0
+
+    <br/><br/>
+    Powered by <a href="https://gohugo.io/">Hugo</a> with
+    <a href="https://github.com/mrmierzejewski/hugo-theme-console/">Console Theme</a>.
+</div>
+
+<script>
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+
+    if (theme === 'dark') {
+        document.getElementById('theme-toggle').textContent = 'Switch to light mode';
+    } else {
+        document.getElementById('theme-toggle').textContent = 'Switch to dark mode';
+    }
+}
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    setTheme(savedTheme);
+} else {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark ? 'dark' : 'light');
+}
+
+const toggleButton = document.getElementById('theme-toggle');
+toggleButton.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+});
+</script>

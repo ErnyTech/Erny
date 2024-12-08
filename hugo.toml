@@ -1,0 +1,14 @@
+baseURL = 'https://erny.dev/'
+languageCode = 'en-us'
+title = 'Erny'
+theme = "hugo-theme-console"
+
+[params]
+  animateStyle = "animated zoomIn fast"
+
+  [[params.navlinks]]
+    name = "posts/"
+    url = "posts/"
+  [[params.navlinks]]
+    name = "github/"
+    url = "https://github.com/ErnyTech"
