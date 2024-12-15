@@ -59,10 +59,10 @@ privileges to perform a task with lower permissions, and later needs to restore 
   <table style="border-collapse: collapse; width: 100%; border: 1px solid #ddd;">
     <thead>
       <tr>
-        <th style="text-align: left; padding: 8px; background-color: #f4f4f4;">Attribute</th>
-        <th style="text-align: left; padding: 8px; background-color: #f4f4f4;">RUID (Real User ID)</th>
-        <th style="text-align: left; padding: 8px; background-color: #f4f4f4;">EUID (Effective User ID)</th>
-        <th style="text-align: left; padding: 8px; background-color: #f4f4f4;">SUID (Saved User ID)</th>
+        <th style="text-align: left; padding: 8px; color: var(--primary-color)">Attribute</th>
+        <th style="text-align: left; padding: 8px; color: var(--primary-color)">RUID (Real User ID)</th>
+        <th style="text-align: left; padding: 8px; color: var(--primary-color)">EUID (Effective User ID)</th>
+        <th style="text-align: left; padding: 8px; color: var(--primary-color)">SUID (Saved User ID)</th>
       </tr>
     </thead>
     <tbody>
