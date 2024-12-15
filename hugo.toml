@@ -3,9 +3,18 @@ languageCode = 'en-us'
 title = 'Erny'
 theme = "hugo-theme-console"
 
+[markup]
+  defaultMarkdownHandler = "goldmark"
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [params]
   animateStyle = "animated zoomIn fast"
 
+  [[params.navlinks]]
+    name = "articles/"
+    url = "articles/"
   [[params.navlinks]]
     name = "posts/"
     url = "posts/"
