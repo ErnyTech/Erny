@@ -51,44 +51,59 @@ if needed later in the execution. This is particularly useful in cases where a p
 privileges to perform a task with lower permissions, and later needs to restore them to complete the task.
 
 ### Summary
-<table border="1">
-  <thead>
-    <tr>
-      <th>Attribute</th>
-      <th>RUID (Real User ID)</th>
-      <th>EUID (Effective User ID)</th>
-      <th>SUID (Saved User ID)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Definition</strong></td>
-      <td>Identifies the user who initiated the process.</td>
-      <td>Determines the privileges and access rights during the execution of a process.</td>
-      <td>Stores the previous <strong>EUID</strong> before it was changed, allowing the process to revert to it.</td>
-    </tr>
-    <tr>
-      <td><strong>Usage</strong></td>
-      <td>Used for accounting and logging purposes.</td>
-      <td>Used to check permissions and enforce access control during process execution.</td>
-      <td>Allows process to revert to its previous <strong>EUID</strong>, enabling temporary privilege escalation.</td>
-    </tr>
-    <tr>
-      <td><strong>Typical Values</strong></td>
-      <td>The user ID of the person who started the process.</td>
-      <td>The user ID that the system uses for permission checks (often root for setuid programs).</td>
-      <td>Stores the <strong>EUID</strong> value before it changes, usually during setuid execution.</td>
-    </tr>
-    <tr>
-      <td><strong>Changes during Execution</strong></td>
-      <td>Can be change via <strong>setuid</strong> syscall only if <strong>EUID</strong> is root.</td>
-      <td>It can be changed via <strong>setuid</strong> syscall without restrictions (I am not considering other 
-        security mechanisms like seccomp etc.) if the current <strong>EUID</strong> is <strong>root</strong>. 
-        Otherwise it can only be changed to <strong>RUID</strong> or <strong>SUID</strong>.</td>
-      <td>Changes when the <strong>EUID</strong> changes, allowing for privilege escalation.</td>
-    </tr>
-  </tbody>
-</table>
+<div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+  <table style="border-collapse: collapse; width: 100%; border: 1px solid #ddd;">
+    <thead>
+      <tr>
+        <th style="text-align: left; padding: 8px; background-color: #f4f4f4;">Attribute</th>
+        <th style="text-align: left; padding: 8px; background-color: #f4f4f4;">RUID (Real User ID)</th>
+        <th style="text-align: left; padding: 8px; background-color: #f4f4f4;">EUID (Effective User ID)</th>
+        <th style="text-align: left; padding: 8px; background-color: #f4f4f4;">SUID (Saved User ID)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Definition</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Identifies the user who initiated the 
+          process.</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Determines the privileges and access rights 
+          during the execution of a process.</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Stores the previous <strong>EUID</strong> 
+          before it was changed, allowing the process to revert to it.</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Usage</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Used for accounting and logging 
+          purposes.</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Used to check permissions and enforce access 
+          control during process execution.</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Allows process to revert to its previous 
+          <strong>EUID</strong>, enabling temporary privilege escalation.</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Typical Values</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">The user ID of the person who started the 
+          process.</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">The user ID that the system uses for 
+          permission checks (often root for setuid programs).</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Stores the <strong>EUID</strong> value 
+          before it changes, usually during setuid execution.</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Changes during Execution</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Can be changed via <strong>setuid</strong> 
+          syscall only if <strong>EUID</strong> is root.</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">It can be changed via 
+          <strong>setuid</strong> syscall without restrictions if the current <strong>EUID</strong> is 
+          <strong>root</strong>. Otherwise, it can only be changed to <strong>RUID</strong> or 
+          <strong>SUID</strong>.</td>
+        <td style="text-align: left; padding: 8px; word-wrap: break-word;">Changes when the <strong>EUID</strong> 
+          changes, allowing for privilege escalation.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
 # How the setuid flag affects process UIDs on Linux
 When a file is executed that has the setuid flag set, the Linux kernel will create a process with EUID and SUID set 
