@@ -3,8 +3,9 @@ title = "SUD 00: The setuid flag, how it works and why I don't like it"
 date = "2024-12-14"
 +++
 
-In Linux, the [setuid (Set User ID)](https://en.wikipedia.org/wiki/Setuid) flag is a permission setting that allows a 
-program to execute with the privileges of its file owner, typically root, regardless of the user executing it.
+In Linux, the [setuid (Set User ID)](https://en.wikipedia.org/wiki/Setuid) flag is a special file attribute setting 
+that allows a program to execute with the privileges of its file owner, typically root, regardless of the user 
+executing it.
 
 When a program with the setuid bit set is run, the process inherits the file owner’s user permissions rather than 
 the permissions of the user running the program. This functionality was crucial for commands like 
@@ -22,6 +23,9 @@ An example with file `/usr/bin/su`:
 $ ls -la /usr/bin/su
 -rwsr-xr-x 1 root root 51320 Jul  4 10:24 /usr/bin/su
 ```
+
+This article explores how the setuid flag works, delves into concepts like RUID, EUID, and SUID, and highlights why 
+setuid can pose challenges in security and system management.
 
 # Understanding user permission in Linux: RUID, EUID, and SUID
 In Linux, processes are associated with three types of user IDs that control how the system manages permissions for
@@ -157,28 +161,36 @@ untouched, the process has now effectively lost any root privileges. To temporar
 you need to use [seteuid](https://linux.die.net/man/2/seteuid) and not setuid!
 
 # What's wrong with the setuid flag?
-I believe there is a fundamental issue with the use of the setuid flag: Why should a file be special and executed with 
-an EUID different from the calling user's? The reason is simple: it was the most convenient way to create programs 
-like su, passwd, etc. 
+The setuid flag has undeniably played a pivotal role in the development of Unix-like systems, providing a practical 
+way to grant temporary elevated privileges for essential tasks. Commands like `su`, `passwd`, and others owe their 
+functionality to this mechanism. However, while it was a convenient solution for its time, I believe it's worth 
+re-evaluating its continued use in modern systems.
 
-I don't think it's a good reason to continue using it today. I don't like special cases, and I truly believe they 
-shouldn't exist at all.
+The core issue with setuid is that it introduces a "special case" where a file can execute with privileges that differ 
+from the user running it. This behavior, while practical in certain scenarios, can become problematic in terms of 
+security and system maintenance. For instance:
 
-The setuid flag is essentially a permission escalation managed by the executed process, what happens if a file is added 
-with the setuid flag enabled and then a malicious unprivileged process calls it specifically to execute privileged 
-commands? 
+1. **Security Concerns**: A malicious binary with the setuid flag enabled could execute commands with elevated 
+privileges. While such a scenario assumes the system is already compromised, identifying and auditing malicious 
+setuid binaries can be challenging. How often do administrators proactively search for setuid-enabled files on their 
+systems using commands like `find / -type f -perm -4000`? For most users, the answer is "rarely, if ever." 
+This lack of oversight creates potential blind spots in security.
 
-Surely the operating system has already been compromised at this point (the malicious actor has gained root 
-before being able to do this) but I invite you to think: "Can you find out if there is a malicious binary with 
-setuid enabled?"
+2. **Lack of Transparency**: The setuid mechanism can make it harder to understand and trace how privileges are 
+escalated during program execution. It relies on the executed program managing these privileges responsibly, which 
+introduces additional risk if the program's code contains vulnerabilities or is exploited.
 
-This malicious binary may not run for days, how many check their system for new setuid binaries 
-(e.g. `find / -type f -perm -4000`)? As far as I'm concerned auditing and monitoring a possible malicious setuid binary 
-is extremely complex and is essentially not checked by anyone.
+3. **Outdated Design**: The setuid flag was a clever solution in the early days of Unix, but modern security practices, 
+such as capabilities, namespaces, and privilege separation, offer alternative methods that can achieve similar goals 
+with finer granularity and less risk.
 
-These were the reasons that led me to start the [Super User Daemon (SUD)](https://github.com/ErnyTech/sud) project, 
-the idea behind it is to create a user privilege manager that does not use the setuid flag or any other special 
-function but instead use a novel approach that relies on absolutely common functionality. Thanks to SUD it will be 
-possible to mount the filesystem with `nosuid` option completely eliminating the setuid permission flag functionality!
+Rather than relying on special cases like setuid, I believe we should strive for solutions that integrate seamlessly 
+with standard system behavior, making privilege escalation transparent and easier to audit.
 
-Its operating principle will be explained in detail in the next dedicated articles.
+These are the motivations behind my work on the [Super User Daemon (SUD)](https://github.com/ErnyTech/sud). SUD aims 
+to eliminate the need for the setuid flag by introducing a new approach based entirely on standard, common 
+functionality. With SUD, systems could mount filesystems with the `nosuid` option, effectively disabling setuid 
+altogether while retaining the ability to perform privileged operations securely.
+
+In the next articles, I will detail SUD's operating principles and how it can simplify privilege management without 
+relying on outdated mechanisms like setuid.
