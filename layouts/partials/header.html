@@ -70,4 +70,31 @@ body {
     color: var(--primary-color);
 }
 
+.scrollable-table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.custom-table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+.custom-table thead th {
+  text-align: left;
+  padding: 8px;
+  color: var(--primary-color);
+}
+
+.custom-table td {
+  text-align: left;
+  padding: 8px;
+  word-wrap: break-word;
+}
+
+.custom-table td strong {
+  font-weight: bold;
+}
+
 </style>
