@@ -199,8 +199,22 @@ This italian tax code calculator is totally offline and does not share your data
   });
   
   document.addEventListener("DOMContentLoaded", function() {
+    const municipalityCode = document.getElementById("municipalityCode");
+  
     loadMunicipalityData().then(() => {
       calculateTaxCode();
     });
+    
+    function clearOnFirstInput(event) {
+      municipalityCode.value = "";
+      municipalityCode.removeEventListener("input", clearOnFirstInput);
+    }
+
+    function resetListener() {
+      municipalityCode.addEventListener("input", clearOnFirstInput);
+    }
+    
+    municipalityCode.addEventListener("input", clearOnFirstInput);
+    municipalityCode.addEventListener("blur", resetListener);
   });
 </script>
