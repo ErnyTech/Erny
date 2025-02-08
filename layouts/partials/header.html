@@ -97,4 +97,43 @@ body {
   font-weight: bold;
 }
 
+input[type="text"], input[type="text"]:not(:placeholder-shown):invalid {
+  border-color: var(--primary-color);
+}
+
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
+  background-color: var(--background-color);
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+input[type="radio"]:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+input[type="text"], input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+input[type="text"]:focus, input[type="date"]:focus {
+  border-color: var(--primary-color); /* Colore blu simile a quello che usi */
+  background-color: var(--background-color); /* Sfondo leggermente più chiaro quando è in focus */
+}
+
 </style>
