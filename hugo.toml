@@ -21,9 +21,3 @@ theme = "hugo-theme-console"
   [[params.navlinks]]
     name = "tools/"
     url = "tools/"
-  [[params.navlinks]]
-    name = "github/"
-    url = "https://github.com/ErnyTech"
-  [[params.navlinks]]
-    name = "telegram/"
-    url = "https://t.me/ErnyT"
