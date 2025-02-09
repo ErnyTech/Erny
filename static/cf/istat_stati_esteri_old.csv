@@ -1,0 +1,33 @@
+Anno evento;"Stato(S)/
+Territorio(T)";Codice Continente (a);Codice ISTAT;Codice AT;Codice ISO 3166 alpha2;Codice ISO 3166 alpha3;Denominazione (b);"Codice Stato/
+Territorio_Figlio";Denominazione Stato/Territorio Figlio
+1990;S;3;824;n.d;n.d;n.d;Yemen del Nord;354;Yemen
+1990;S;3;825;Z250;YD;YMD;Yemen del Sud;354;Yemen
+1990;S;1;804;n.d;n.d;n.d;Repubblica Federale Tedesca;216;Germania
+1990;S;1;805;Z111;DD;DDR;Repubblica Democratica Tedesca;216;Germania
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;243;Ucraina
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;245;Federazione Russa
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;247;Estonia
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;248;Lettonia
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;249;Lituania
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;256;Bielorussia
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;254;Moldova
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;356;Kazakistan
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;357;Uzbekistan
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;358;Armenia
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;359;Azerbaigian
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;360;Georgia
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;361;Kirghizistan
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;362;Tagikistan
+1991;S;1;802;Z135;SU;SUN;Unione Sovietica;364;Turkmenistan
+1992;S;1;801;Z105;n.d;CSK;Cecoslovacchia;257;Repubblica ceca
+1992;S;1;801;Z105;n.d;CSK;Cecoslovacchia;255;Slovacchia
+2003;S;1;820;Z118;YU;YUG;Repubblica Socialista Federale di Jugoslavia;251;Slovenia
+2003;S;1;820;Z118;YU;YUG;Repubblica Socialista Federale di Jugoslavia;250;Croazia
+2003;S;1;820;Z118;YU;YUG;Repubblica Socialista Federale di Jugoslavia;253;Macedonia, Repubblica di
+2003;S;1;820;Z118;YU;YUG;Repubblica Socialista Federale di Jugoslavia;252;Bosnia-Erzegovina
+2003;S;1;820;Z118;YU;YUG;Repubblica Socialista Federale di Jugoslavia;224;Serbia e Montenegro
+2006;S;1;224;Z157;n.d;SCG;Serbia e Montenegro;271;Serbia
+2006;S;1;224;Z157;n.d;SCG;Serbia e Montenegro;270;Montenegro
+2015;T;4;907;n.d;AN;ANT;Antille olandesi, isole;966;Curaçao
+2015;T;4;907;n.d;AN;ANT;Antille olandesi, isole;928;Sint Maarten (NL)

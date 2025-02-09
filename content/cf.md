@@ -32,35 +32,117 @@ This italian tax code calculator is totally offline and does not share your data
 <script>
   let selectedMunicipalityCode = "A001";
 
-   let comuniData = [];
+  let codiciCatastali = [];
 
   async function loadMunicipalityData() {
-    const url = 'https://raw.githubusercontent.com/opendatasicilia/comuni-italiani/main/dati/comuni_codici-catastali.csv';
-    
     try {
-      const response = await fetch(url);
+      const response = await fetch("/cf/ANPR_archivio_comuni.csv");
       const csvText = await response.text();
       
       const rows = csvText.split('\n').slice(1);
-      comuniData = rows.map(row => {
+      codiciCatastali = codiciCatastali.concat(rows.map(row => {
         const columns = row.split(',');
-        if (columns.length != 3) {
+        
+        if (columns.length != 18) {
           return null;
         }
         
+        const codiceCatastale = columns[4].trim().replace(/^"+|"+$/g, '');
+        const name = columns[5].trim().replace(/^"+|"+$/g, '');
+        const old = columns[2].trim().replace(/^"+|"+$/g, '') === "9999-12-31" ? false : true;
+        
+        if (!codiceCatastale || !name) {
+          return null;
+        }
+      
         return {
-          codiceCatastale: columns[1].trim(),
-          comune: columns[2].trim(),
+          codiceCatastale: codiceCatastale.toUpperCase(),
+          name: name.toUpperCase(),
+          old: old,
+          country: false
         };
-      }).filter(item => item !== null);
-
+      }).filter(item => item !== null));
     } catch (error) {
       console.error("Error loadMunicipalityData:", error);
     }
   }
+  
+  async function loadCountryData() {
+    try {
+      const response = await fetch("/cf/istat_stati_esteri.csv");
+      const csvText = await response.text();
+      
+      const rows = csvText.split('\n').slice(1);
+      codiciCatastali = codiciCatastali.concat(rows.map(row => {
+        const columns = row.split(';');
+        
+        if (columns.length != 15) {
+          return null;
+        }
+        
+        const codiceCatastale = columns[9].trim();
+        const name = columns[6].trim();
+        
+        if (!codiceCatastale || !name || codiceCatastale == "n.d." || codiceCatastale == "n.d") {
+          return null;
+        }
+      
+        return {
+          codiceCatastale: codiceCatastale.toUpperCase(),
+          name: name.toUpperCase(),
+          old: false,
+          country: true
+        };
+      }).filter(item => item !== null));
+    } catch (error) {
+      console.error("Error loadCountryData:", error);
+    }
+  }
+  
+  async function loadCountryDataOld() {
+    try {
+      const response = await fetch("/cf/istat_stati_esteri_old.csv");
+      const csvText = await response.text();
+      
+      const rows = csvText.split('\n').slice(1);
+      codiciCatastali = codiciCatastali.concat(rows.map(row => {
+        const columns = row.split(';');
+        
+        if (columns.length != 10) {
+          return null;
+        }
+        
+        const codiceCatastale = columns[4].trim();
+        const name = columns[7].trim();
+        
+        if (!codiceCatastale || !name || codiceCatastale == "n.d." || codiceCatastale == "n.d") {
+          return null;
+        }
+      
+        return {
+          codiceCatastale: codiceCatastale.toUpperCase(),
+          name: name.toUpperCase(),
+          old: true,
+          country: true
+        };
+      }).filter(item => item !== null));
+    } catch (error) {
+      console.error("Error loadCountryDataOld:", error);
+    }
+  }
+  
+  async function loadCodiciCatastali() {
+    await loadMunicipalityData();
+    await loadCountryData();
+    await loadCountryDataOld();
+    
+    codiciCatastali = [...new Map(codiciCatastali
+      .map(obj => [`${obj.codiceCatastale}-${obj.name}`, obj])
+    ).values()];
+  }
 
-  function findMunicipalityCode(comune) {
-    return comuniData.filter(item => item.comune.toLowerCase().includes(comune.toLowerCase())).slice(0, 10);
+  function findMunicipalityCode(name) {
+    return codiciCatastali.filter(item => item.name.toLowerCase().includes(name.toLowerCase())).slice(0, 10);
   }
 
   function updateSuggestions(matches) {
@@ -69,7 +151,18 @@ This italian tax code calculator is totally offline and does not share your data
     if (matches.length > 0) {
       matches.forEach(item => {
         const li = document.createElement("li");
-        li.textContent = `${item.comune} (${item.codiceCatastale})`;
+        
+        let name = item.name;
+        
+        if (item.country && item.old) {
+          name = name + " - Supressed foreign state";
+        } else if (item.country) {
+          name = name + " - Foreign state";
+        } else if (item.old) {
+          name = name + " - Supressed municipality";
+        }
+        
+        li.textContent = `${name} (${item.codiceCatastale})`;
         li.addEventListener("click", () => selectMunicipality(item));
         suggestionsList.appendChild(li);
       });
@@ -80,7 +173,7 @@ This italian tax code calculator is totally offline and does not share your data
   }
 
   function selectMunicipality(item) {
-    document.getElementById("municipalityCode").value = `${item.comune} (${item.codiceCatastale})`;
+    document.getElementById("municipalityCode").value = `${item.name} (${item.codiceCatastale})`;
     document.getElementById("municipalitySuggestions").style.display = "none";
     selectedMunicipalityCode = item.codiceCatastale;
     calculateTaxCode();
@@ -201,17 +294,21 @@ This italian tax code calculator is totally offline and does not share your data
   document.addEventListener("DOMContentLoaded", function() {
     const municipalityCode = document.getElementById("municipalityCode");
   
-    loadMunicipalityData().then(() => {
+    loadCodiciCatastali().then(() => {
       calculateTaxCode();
     });
     
     function clearOnFirstInput(event) {
-      municipalityCode.value = "";
-      municipalityCode.removeEventListener("input", clearOnFirstInput);
+      if (municipalityCode.dataset.cleared !== "true") {
+        const firstChar = event.data || municipalityCode.value.slice(-1);
+        municipalityCode.value = firstChar;
+        municipalityCode.dataset.cleared = "true";
+        calculateTaxCode();
+      }
     }
 
     function resetListener() {
-      municipalityCode.addEventListener("input", clearOnFirstInput);
+      municipalityCode.dataset.cleared = "false";
     }
     
     municipalityCode.addEventListener("input", clearOnFirstInput);
