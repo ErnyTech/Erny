@@ -5,9 +5,11 @@ title: "iOS IPA Signing Service"
 This is a private IPA signing service, it is not under credential protection as UDIDs are unique.
 
 <form id="signForm">
-  <label for="ipaFile">Upload IPA File:</label>
-  <input type="file" id="ipaFile" name="file" accept=".ipa" style="display: none;">
-  <label for="ipaFile" id="ipaFileLabel" class="custom-file-label">Choose file</label>
+  <div class="custom-file-container">
+    <label for="ipaFile" style="white-space: nowrap;">Upload IPA File:</label>
+    <input type="file" id="ipaFile" name="file" accept=".ipa" style="display: none;">
+    <label for="ipaFile" id="ipaFileLabel" class="custom-file-label">Choose file</label>
+  </div>
   <br><br>
   <label for="udid">Device UDID:</label>
   <input type="password" id="udid" name="udid" placeholder="Enter your device UDID" required autocomplete="current-password" class="form-input">

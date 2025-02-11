@@ -153,11 +153,18 @@ input[type="text"]:focus, input[type="date"]:focus {
     transition: width 0.1s ease-in-out;
 }
 
+.custom-file-container {
+    display: flex;
+    align-items: left;
+    gap: 10px;
+    flex-wrap: nowrap;
+}
+
 .custom-file-label {
     display: inline-block;
     color: var(--primary-color);
     cursor: pointer;
-    text-align: center;
+    text-align: left;
 }
 
 .custom-file-label:hover {
